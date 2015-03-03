@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Set your preferences here</h1>
+
+<p>The addon triggers an exercise session each time you load a page on the list. The website becomes available only once you finished the workout.</p>
+
+<p>You can change your preferences below.</p>
+
+<h2>Websites list</h2>
+
+<div>
+<p>The websites currently blocked are:</p>
+	<div>
+		<select multiple name="selectWebsitesList" id="selectWebsitesListID">
+		</select>
+		<button id="removeFromPrefs">Remove</button>
+		<p>You can remove websites by selecting the ones you want to remove in the list.</p>
+		<p>You can easily add a domain by clicking on the addon logo when visiting a website you want to add to the list.</p>
+</div>
+
+<h2>Time settings</h2>
+
+<div>
+<p>One exercise session lasts: <span id="timeSession"></span> seconds. Change to: <input type="number" id="inputTimeSession" size="4" /> <button id="inputTimeSessionButton">change</button></p>
+
+<p>One exercise session grants access to the website for <span id="timeUnlock"></span> minute(s). Change to: <input type="number" id="inputTimeUnlock" size="4" /> <button id="inputTimeUnlockButton">change</button> </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "barths_test_addon",
+  "title": "Barth's Test Addon",
+  "id": "jid1-eMw13CRl4SGPXg",
+  "description": "Stop waisting time or exercise",
+  "author": "Barthélémy Bonadio",
+  "license": "MIT",
+  "version": "0.1",
+  
+  "preferences": [{
+    "name": "changePreferences",
+    "title": "Change preferences",
+    "type": "control",
+    "description": "Click to open the preferences page",
+    "label": "Open preferences"
+	}]
+
+}
+
