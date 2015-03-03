@@ -1,5 +1,4 @@
-# fit-and-focused
-SDK code for the "Fit and focused" firefox addon
+THIS IS A BETA VERSION, FOR TESTING PURPOSES ONLY
 
 Fit And Focused
 ---------------
@@ -10,3 +9,4 @@ License
 -------
 
 This code is released under MIT License.
+
