@@ -20,20 +20,12 @@ exports.main = function (options, callbacks) {
 /// should run this code at startup
   //check is websiteList was saved, if not create with default
   if (typeof ss.storage.websitesListSaved == 'undefined' ) {
-  	ss.storage.websitesListSaved  = ['www.facebook.com', 'twitter.com', 'buzzfeed.com', '9gag.com'];
-  }
-  //same for timeSession
-  if (typeof ss.storage.timeSessionSaved == 'undefined' ) {
-  	ss.storage.timeSessionSaved=10;
-  }
-  //same for timeUnlock
-  if (typeof ss.storage.timeUnlockSaved == 'undefined' ) {
-  	ss.storage.timeUnlockSaved=0.2;
+  	ss.storage.websitesListSaved  = [];
   }
 ////
 ////
 
-simplePrefs.on("changePreferences", function() {
+simplePrefs.on("changeWebsitesPreferences", function() {
     tabs.open(self.data.url("preferences.html"));
 });
 
@@ -54,7 +46,9 @@ var button = buttons.ActionButton({
 var panel = panels.Panel({
   contentURL: self.data.url("panel.html"),
   contentScriptFile: self.data.url("scriptPanel.js"),
-  onHide: handleHide
+  onHide: handleHide,
+  width: 180,
+  height: 100
 });
 
 
@@ -109,24 +103,24 @@ function tabReady(tab) {
   console.log(tab.url + 'ready');
   var urlVisit=tab.url;  
   for (var i=0; i<websitesList.length; i++) {
-      if (urlVisit.indexOf(websitesList[i]) > -1) {
+      if (urlVisit && sdk_urls.URL(urlVisit).host && sdk_urls.URL(urlVisit).host.indexOf(websitesList[i]) > -1) {
   		console.log(websitesList[i]);
   		sendExerciseToUrl(websitesList[i], tab);
   	}
   }
   if (urlVisit == self.data.url("preferences.html"))
   {
-	  var prefScript = tabs.activeTab.attach({
+	  var prefScript = tab.attach({
 	  		contentScriptFile: self.data.url("changePreferences.js")
 	  });
 	  //send pref variables
-	  prefScript.port.emit('timeSessionSaved',ss.storage.timeSessionSaved);
+	  prefScript.port.emit('timeSessionSaved',simplePrefs.prefs.timeSessionSaved);
 	  prefScript.port.emit('websitesListSaved',ss.storage.websitesListSaved);
-	  prefScript.port.emit('timeUnlockSaved',ss.storage.timeUnlockSaved);
+	  prefScript.port.emit('timeUnlockSaved',simplePrefs.prefs.timeUnlockSaved);
 	  //be ready to change pref variables
-	  prefScript.port.on('changeTimeSessionSaved',function(arg){ ss.storage.timeSessionSaved = arg; } );
-	  prefScript.port.on('changeTimeUnlockSaved',function(arg){ ss.storage.timeUnlockSaved = arg;} );
-	  
+	  prefScript.port.on('changeTimeSessionSaved',function(arg){ simplePrefs.prefs['timeSessionSaved'] = parseInt(arg); } );
+	  prefScript.port.on('changeTimeUnlockSaved',function(arg){ simplePrefs.prefs.timeUnlockSaved = parseInt(arg);} );
+	  prefScript.port.on('sendWebsitesListSaved', function() { prefScript.port.emit('websitesListSaved',ss.storage.websitesListSaved); });
 	  prefScript.port.on('removeWebsiteFromPref',function(arg){ 
 	  		console.log(arg);
 	  		var ind = ss.storage.websitesListSaved.indexOf(arg);
@@ -142,10 +136,20 @@ function tabReady(tab) {
 	  				setTimeout(function() { 
 	  					var ind3 = websitesList.indexOf(arg); 
 	  					if(ind3 > -1) { websitesList.splice(ind3,1); }
-	  				}, ss.storage.timeUnlockSaved*60*1000);
+	  				}, simplePrefs.prefs.timeUnlockSaved*60*1000);
 	  			}
 	  		}
 	  } );
+	  prefScript.port.on('addNewWebsite', function(arg) { 
+	  	//check if the website is not already in the list
+		if (ss.storage.websitesListSaved.indexOf(arg) == -1) {
+			if (arg) {
+				var newWebSite = JSON.parse(JSON.stringify(arg));
+				websitesList.push(newWebSite);
+				ss.storage.websitesListSaved.push(newWebSite);
+			}
+		}
+	  });
 	  prefScript.port.on('consoleIt',function(arg) { console.log(arg); });
   }
 
@@ -159,7 +163,7 @@ function tabClosedBecauseUnfinishedWorkout(d) {
 }
 
 function sendExerciseToUrl(dom, myTab) {
-	if (myTab.url.indexOf(dom) > -1) {
+	if (sdk_urls.URL(myTab.url).host.indexOf(dom) > -1) {
 		//get the tab id
 	 	var tabID = myTab.id;
 		//launch the script
@@ -167,7 +171,7 @@ function sendExerciseToUrl(dom, myTab) {
 	 		contentScriptFile: self.data.url("scriptExercise.js")
 	 	});
 	 	//send the time of the session
-	 	exerciseScript.port.emit('setTimer',ss.storage.timeSessionSaved);
+	 	exerciseScript.port.emit('setTimer',simplePrefs.prefs.timeSessionSaved);
 	 	exerciseScript.port.on('consoleIt',function(bla){console.log(bla);});
 	 	exerciseScript.port.on('getGifAddress', function(arg){
 	 		exerciseScript.port.emit('returnGifAddress',self.data.url(arg)) 
@@ -190,7 +194,7 @@ function sendExerciseToUrl(dom, myTab) {
 	 	
 	 	//listen for a ready event. If it's the activeTab, then the user changed website and we can destroy the script
 	 	function newPageReady(t) {
-	 		if (t == myTab && t.url.indexOf(dom) == -1 ) {
+	 		if (t == myTab && sdk_urls.URL(t.url).host.indexOf(dom) == -1 ) {
 		 		myTab.removeListener("ready",newPageReady);
 		 		console.log('listener was removed in newPageReady');
 		 		exerciseScript.destroy();
@@ -252,7 +256,7 @@ function sendExerciseToUrl(dom, myTab) {
 		 				console.log('activate event listener on ' + myTab.url);
 		 			}
 		 		}
-	 		}, ss.storage.timeUnlockSaved*60*1000);
+	 		}, simplePrefs.prefs.timeUnlockSaved*60*1000);
 	 	}
 	 	exerciseScript.port.on('finishedExercise', whenScriptFinishes);
 	}

@@ -1,32 +1,72 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<title>Fit and Focused - preferences</title>
+	<link rel="stylesheet" type="text/css" href="preferencesStyle.css">
+</head>
 <body>
-
-<h1>Set your preferences here</h1>
-
-<p>The addon triggers an exercise session each time you load a page on the list. The website becomes available only once you finished the workout.</p>
-
-<p>You can change your preferences below.</p>
-
-<h2>Websites list</h2>
-
-<div>
-<p>The websites currently blocked are:</p>
+<div id="header">
+	<div class="rateIt">Like being Fit and Focused? <a href="">rate us!</a></div>
+</div>
+<div id="container">
+	<h1>Set your preferences here</h1>
+	
+	<p>The addon triggers an exercise session each time you load a page on the list. The exercise is activated everytime you visit a website whose domain (what is between http:// and .com/org etc.) contains an expression in the list below. For example, if "facebook" is in the list, the addon will block <i>www.facebook.com</i>, <i>fr.facebook.com</i> but won't block <i>www.google.com/search?q=facebook</i>.</p>
+	
+	<p>You can change your preferences below.</p>
+	
+	<h2>Websites list</h2>
+	
 	<div>
-		<select multiple name="selectWebsitesList" id="selectWebsitesListID">
-		</select>
-		<button id="removeFromPrefs">Remove</button>
-		<p>You can remove websites by selecting the ones you want to remove in the list.</p>
-		<p>You can easily add a domain by clicking on the addon logo when visiting a website you want to add to the list.</p>
+			
+		<div class="center">
+		<table style="float:center" width="100%">
+			<tr>
+				<th>Suggested websites</th>
+				<th>Your current list</th>
+			</tr>
+			<tr>
+				<td><select multiple name="suggestedWebsitesList" id="suggestedWebsitesListID" size="10">
+					<option value="facebook.com">facebook.com</option>
+					<option value="twitter.com">twitter.com</option>
+					<option value="youtube.com">youtube.com</option>
+					<option value="reddit.com">reddit.com</option>
+					<option value="9gag.com">9gag.com</option>
+					<option value="tumblr.com">tumblr.com</option>
+					<option value="pinterest.com">pinterest.com</option>
+					<option value="stumbleupon.com">stumbleupon.com</option>
+					<option value="instagram.com">instagram.com</option>
+					<option value="buzzfeed.com">buzzfeed.com</option>
+				</select></td>
+				<td><select multiple name="selectWebsitesList" id="selectWebsitesListID">
+				</select></td>
+			</tr>
+			<tr>
+				<td><button id="addTolistFromList">Add</button></td>
+				<td><button id="removeFromPrefs">Remove</button></td>
+			</tr>
+		</table>
+		</div>
+			<p>You can remove websites by selecting the ones you want to remove in the list.</p>
+			<p>You can easily add a domain by clicking on the addon logo when visiting a website you want to add to the list, or you can enter a domain below:</p>
+		<form class="center">
+			<input id="inputNewWebsite" size="25"></input>
+			<br />
+			<button id="inputNewWebsiteButton">Add</button>
+		</form>
+	</div>
+	
+	<h2>Time settings</h2>
+	
+	<div>
+	<p>One exercise session lasts: <span id="timeSession"></span> seconds. Change to: <form><input type="number" id="inputTimeSession" size="4" min="0"> <button id="inputTimeSessionButton">change</button></form></p>
+	
+	<p>One exercise session grants access to the website for <span id="timeUnlock"></span> minute(s). Change to: <form> <input type="number" min="0" id="inputTimeUnlock" size="4"> <button id="inputTimeUnlockButton">change</button> </form> </p>
+	</div>
+
 </div>
-
-<h2>Time settings</h2>
-
-<div>
-<p>One exercise session lasts: <span id="timeSession"></span> seconds. Change to: <input type="number" id="inputTimeSession" size="4" /> <button id="inputTimeSessionButton">change</button></p>
-
-<p>One exercise session grants access to the website for <span id="timeUnlock"></span> minute(s). Change to: <input type="number" id="inputTimeUnlock" size="4" /> <button id="inputTimeUnlockButton">change</button> </p>
+<div id="bottom">
+<span class="copyright">Copyright 2015, Fit and Focused</span>
 </div>
-
 </body>
 </html>

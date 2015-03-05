@@ -8,11 +8,27 @@
   "version": "0.1",
   
   "preferences": [{
-    "name": "changePreferences",
-    "title": "Change preferences",
+    "name": "changeWebsitesPreferences",
+    "title": "Manage website list",
     "type": "control",
-    "description": "Click to open the preferences page",
-    "label": "Open preferences"
+    "description": "Click to manage the websites list",
+    "label": "Open list"
+	},
+	{
+    "name": "timeSessionSaved",
+    "title": "Exercise session length",
+    "type": "integer",
+    "description": "Length of an exercise session (in seconds)",
+    "label": "Choose a value",
+    "value": 30
+	},
+		{
+    "name": "timeUnlockSaved",
+    "title": "Unlock time after workout",
+    "type": "integer",
+    "description": "Time you get to visit a website after exercising (in minutes)",
+    "label": "Choose a value",
+    "value": 1
 	}]
 
 }

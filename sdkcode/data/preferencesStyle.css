@@ -33,6 +33,11 @@ body {
 	height: 20px;
 	border-bottom: 1px solid #2E2EFE;
 }
+#bottom {
+	height:30px;
+	border-top: 1px solid #2E2EFE;
+	text-align: right;
+}
 .center {
 	text-align: center;
 }
