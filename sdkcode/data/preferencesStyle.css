@@ -1,0 +1,49 @@
+button {
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+}
+
+button:hover {
+	background-color:#6c7c7c;
+}
+
+button:active {
+	position:relative;
+	top:1px;
+}
+
+body {
+	font-family:arial;
+	font-size:12px;
+	background-color: #CEE3F6;
+	margin: 20px;
+}
+
+#container {
+	width: 70%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#header {
+	height: 20px;
+	border-bottom: 1px solid #2E2EFE;
+}
+.center {
+	text-align: center;
+}
+
+.rateIt {
+	text-align: right;
+}
+.rateIt a {
+	text-decoration: none;
+}
+
+h1, h2 {
+	text-align: center;
+}

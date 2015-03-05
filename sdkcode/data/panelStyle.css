@@ -1,0 +1,23 @@
+button {
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+}
+
+button:hover {
+	background-color:#6c7c7c;
+}
+
+button:active {
+	position:relative;
+	top:1px;
+}
+
+body {
+	font-family:arial;
+	font-size:12px;
+	background-color: #CEE3F6;
+}
